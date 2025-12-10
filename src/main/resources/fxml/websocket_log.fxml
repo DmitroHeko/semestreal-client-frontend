@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="collab.controller.WebSocketLogController">
+
+    <top>
+        <ToolBar>
+            <Button text="Clear" onAction="#onClear"/>
+            <Button text="Close" onAction="#onClose"/>
+        </ToolBar>
+    </top>
+
+    <center>
+        <TextArea fx:id="logArea" wrapText="true"/>
+    </center>
+
+</BorderPane>

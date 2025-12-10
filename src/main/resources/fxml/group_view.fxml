@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="collab.controller.GroupViewController">
+
+    <!-- ================= TOP BAR ================= -->
+    <top>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Button text="← Späť" onAction="#onBack"/>
+            <Label fx:id="groupTitleLabel"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+        </HBox>
+    </top>
+
+    <!-- ================= CENTER AREA ================= -->
+    <center>
+        <SplitPane dividerPositions="0.33, 0.66">
+
+            <!-- ========= LEFT PANEL: MEMBERS ========== -->
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <Label text="Členovia skupiny"
+                       style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <TableView fx:id="memberTable">
+                    <columns>
+                        <TableColumn fx:id="memberNameCol" text="Meno" prefWidth="150"/>
+                        <TableColumn fx:id="memberEmailCol" text="Email" prefWidth="180"/>
+                    </columns>
+                </TableView>
+
+                <HBox spacing="10">
+                    <Button text="Pridať" onAction="#onInviteUser"/>
+                    <Button text="Odísť" onAction="#onLeaveGroup"/>
+                </HBox>
+            </VBox>
+
+            <!-- ========= MIDDLE PANEL: CHAT ========== -->
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <Label text="Skupinový chat"
+                       style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <ListView fx:id="chatList" VBox.vgrow="ALWAYS"/>
+
+                <HBox spacing="10">
+                    <TextField fx:id="chatInput" promptText="Napíšte správu..." HBox.hgrow="ALWAYS"/>
+                    <Button text="Poslať" onAction="#onSendMessage"/>
+                </HBox>
+            </VBox>
+
+            <!-- ========= RIGHT PANEL: TASKS + MATERIALS ========= -->
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+
+                <!-- Tasks -->
+                <Label text="Úlohy"
+                       style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <TableView fx:id="taskTable" prefHeight="200">
+                    <columns>
+                        <TableColumn fx:id="taskTitleCol" text="Názov" prefWidth="160"/>
+                        <TableColumn fx:id="taskStatusCol" text="Stav" prefWidth="100"/>
+                        <TableColumn fx:id="taskDeadlineCol" text="Do" prefWidth="90"/>
+                    </columns>
+                </TableView>
+
+                <HBox spacing="8">
+                    <TextField fx:id="taskTitleField" promptText="Úloha" prefWidth="120"/>
+                    <DatePicker fx:id="taskDeadlineField"/>
+                    <Button text="+" onAction="#onAddTask"/>
+                </HBox>
+
+                <Separator/>
+
+                <!-- Materials -->
+                <Label text="Materiály"
+                       style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <TableView fx:id="resourceTable">
+                    <columns>
+                        <TableColumn fx:id="resourceTitleCol" text="Názov" prefWidth="150"/>
+                        <TableColumn fx:id="resourceTypeCol" text="Typ" prefWidth="80"/>
+                        <TableColumn fx:id="resourceUrlCol" text="Odkaz" prefWidth="200"/>
+                    </columns>
+                </TableView>
+
+                <HBox spacing="8">
+                    <TextField fx:id="resTitleField" promptText="Názov" prefWidth="120"/>
+                    <TextField fx:id="resUrlField" promptText="URL" prefWidth="160"/>
+                    <Button text="+" onAction="#onAddResource"/>
+                </HBox>
+            </VBox>
+
+        </SplitPane>
+    </center>
+
+</BorderPane>

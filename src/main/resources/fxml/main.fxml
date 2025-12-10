@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="collab.controller.MainController">
+
+    <!-- ================= TOP BAR ================= -->
+    <top>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Label text="Prihlásený používateľ:"/>
+            <Label fx:id="currentUserLabel" style="-fx-font-weight: bold;"/>
+
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button text="WebSocket Log" onAction="#onOpenWebSocketLog"/>
+
+            <Button text="Odhlásiť sa" onAction="#onLogout"/>
+        </HBox>
+    </top>
+
+    <!-- ================= CENTER (TabPane) ================= -->
+    <center>
+        <TabPane>
+
+            <!-- ************** GROUPS TAB ************** -->
+            <Tab text="Skupiny" closable="false">
+                <BorderPane>
+
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <!-- LEFT: Groups list -->
+                    <left>
+                        <VBox spacing="10">
+
+                            <Label text="Zoznam skupín" style="-fx-font-size: 15; -fx-font-weight: bold;"/>
+
+                            <TableView fx:id="groupsTable" prefWidth="350">
+                                <columns>
+                                    <TableColumn fx:id="groupNameColumn" text="Názov" prefWidth="150"/>
+                                    <TableColumn fx:id="groupDescColumn" text="Popis" prefWidth="200"/>
+                                </columns>
+                            </TableView>
+
+                            <Button text="Skupina" onAction="#onOpenGroup"/>
+
+                            <HBox spacing="5">
+                                <TextField fx:id="newGroupNameField" promptText="Názov skupiny" prefWidth="150"/>
+                                <TextField fx:id="newGroupDescField" promptText="Popis" prefWidth="150"/>
+                                <Button text="Vytvoriť" onAction="#onCreateGroup"/>
+                                <Button text="Obnoviť" onAction="#refreshGroups"/>
+                            </HBox>
+
+                        </VBox>
+                    </left>
+
+                    <!-- CENTER: Members -->
+                    <center>
+                        <VBox spacing="10">
+                            <padding>
+                                <Insets top="10" right="10" bottom="10" left="10"/>
+                            </padding>
+
+                            <Label text="Členovia skupiny" style="-fx-font-size: 15; -fx-font-weight: bold;"/>
+
+                            <TableView fx:id="membersTable">
+                                <columns>
+                                    <TableColumn fx:id="memberNameColumn" text="Meno" prefWidth="200"/>
+                                    <TableColumn fx:id="memberEmailColumn" text="Email" prefWidth="200"/>
+                                </columns>
+                            </TableView>
+
+                            <Button text="Obnoviť členov" onAction="#refreshMembers"/>
+                        </VBox>
+                    </center>
+
+                </BorderPane>
+            </Tab>
+
+            <!-- ************** TASKS TAB ************** -->
+            <Tab text="Úlohy" closable="false">
+                <BorderPane>
+
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <top>
+                        <HBox spacing="10">
+                            <Label text="Vybrať skupinu:"/>
+                            <ComboBox fx:id="tasksGroupCombo" prefWidth="200" onAction="#refreshTasks"/>
+                            <Button text="Obnoviť" onAction="#refreshTasks"/>
+                        </HBox>
+                    </top>
+
+                    <center>
+                        <TableView fx:id="tasksTable">
+                            <columns>
+                                <TableColumn fx:id="taskTitleColumn" text="Názov" prefWidth="250"/>
+                                <TableColumn fx:id="taskStatusColumn" text="Stav" prefWidth="150"/>
+                                <TableColumn fx:id="taskDeadlineColumn" text="Do" prefWidth="120"/>
+                            </columns>
+                        </TableView>
+                    </center>
+
+                    <bottom>
+                        <VBox spacing="8">
+
+                            <Label text="Nová úloha" style="-fx-font-size: 14; -fx-font-weight: bold;"/>
+
+                            <HBox spacing="8">
+                                <TextField fx:id="newTaskTitleField" promptText="Názov" prefWidth="150"/>
+                                <TextField fx:id="newTaskDescField" promptText="Popis" prefWidth="200"/>
+                                <DatePicker fx:id="newTaskDeadlinePicker"/>
+                                <Button text="Vytvoriť" onAction="#onCreateTask"/>
+                            </HBox>
+
+                            <HBox spacing="10">
+                                <Button text="OPEN" onAction="#onChangeTaskStatusToOpen"/>
+                                <Button text="IN PROGRESS" onAction="#onChangeTaskStatusToInProgress"/>
+                                <Button text="DONE" onAction="#onChangeTaskStatusToDone"/>
+                            </HBox>
+
+                        </VBox>
+                    </bottom>
+
+                </BorderPane>
+            </Tab>
+
+            <!-- ************** RESOURCES TAB ************** -->
+            <Tab text="Materiály" closable="false">
+                <BorderPane>
+
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <top>
+                        <HBox spacing="10">
+                            <Label text="Vybrať skupinu:"/>
+                            <ComboBox fx:id="resourcesGroupCombo" prefWidth="200" onAction="#refreshResources"/>
+                            <Button text="Obnoviť" onAction="#refreshResources"/>
+                        </HBox>
+                    </top>
+
+                    <center>
+                        <TableView fx:id="resourcesTable">
+                            <columns>
+                                <TableColumn fx:id="resTitleColumn" text="Názov" prefWidth="200"/>
+                                <TableColumn fx:id="resTypeColumn" text="Typ" prefWidth="80"/>
+                                <TableColumn fx:id="resUrlColumn" text="Odkaz" prefWidth="300"/>
+                            </columns>
+                        </TableView>
+                    </center>
+
+                    <bottom>
+                        <VBox spacing="8">
+
+                            <Label text="Nový materiál" style="-fx-font-size: 14; -fx-font-weight: bold;"/>
+
+                            <HBox spacing="8">
+                                <TextField fx:id="newResTitleField" promptText="Názov" prefWidth="150"/>
+                                <TextField fx:id="newResTypeField" promptText="Typ (LINK/FILE)" prefWidth="120"/>
+                                <TextField fx:id="newResUrlField" promptText="URL / cesta" prefWidth="200"/>
+                                <Button text="Pridať" onAction="#onCreateResource"/>
+                            </HBox>
+
+                        </VBox>
+                    </bottom>
+
+                </BorderPane>
+            </Tab>
+
+            <!-- ************** STATS TAB ************** -->
+            <Tab text="Štatistiky" closable="false">
+                <BorderPane>
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+
+                    <center>
+                        <PieChart fx:id="statsPieChart" title="Stav úloh"/>
+                    </center>
+                </BorderPane>
+            </Tab>
+
+        </TabPane>
+    </center>
+
+</BorderPane>
